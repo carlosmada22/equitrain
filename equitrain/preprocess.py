@@ -161,17 +161,20 @@ def _preprocess(args):
         logging.info(f"Average number of neighbors: {avg_num_neighbors}")
         logging.info(f"Mean: {mean}")
         logging.info(f"Standard deviation: {std}")
+
+        #sort atomic_energies_dict by atomic number (key) and convert to a single string
+        atomic_energies_str = "{" + ", ".join(f"{int(k)}: {float(v)}" for k, v in sorted(atomic_energies_dict.items())) + "}"
             
         # save the statistics as a json
         statistics = {
-            "atomic_energies": {int(k): float(v) for k, v in atomic_energies_dict.items()},
+            "atomic_energies": atomic_energies_str,
             "avg_num_neighbors": avg_num_neighbors,
             "mean": mean,
             "std": std,
-            "atomic_numbers": z_table.zs,
+            "atomic_numbers": str(z_table.zs),
             "r_max": args.r_max,
         }
-        logging.info(f"Final statistics to be saved: {statistics}")
+        #logging.info(f"Final statistics to be saved: {statistics}")
         del train_dataset
         del train_loader
         with open(os.path.join(args.output_dir, "statistics.json"), "w") as f:
@@ -199,8 +202,6 @@ def preprocess(args):
         raise ValueError("--train-file is a required argument")
     if args.valid_file is None:
         raise ValueError("--valid-file is a required argument")
-    if args.statistics_file is None:
-        raise ValueError("--statistics-file is a required argument")
     if args.output_dir is None:
         raise ValueError("--output-dir is a required argument")
 
