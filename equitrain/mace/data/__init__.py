@@ -1,3 +1,4 @@
+from .atomic_data import AtomicData
 from .utils import (
     Configuration,
     Configurations,
@@ -21,6 +22,7 @@ __all__ = [
     "test_config_types",
     "config_from_atoms",
     "config_from_atoms_list",
+    "AtomicData",
     "compute_average_E0s",
     "save_dataset_as_HDF5",
     "HDF5Dataset",
